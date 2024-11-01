@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 export async function addItem(item) {
   const id = uuid();
+  try {
   const [rows] = await database.query(
     `insert into Item (item_id,owner_id,title,description,category_id,price_per_day,deposit,location_id,status,damage_protection_required,
         rating) values (?,?,?,?,?,?,?,?,?,?,?)`,
@@ -20,7 +21,9 @@ export async function addItem(item) {
       item.rating,
     ]
   );
-  console.log(rows);
+}catch (error) {
+  throw error;
+}
 }
 
 export async function getItem(id) {
