@@ -1,0 +1,12 @@
+{
+  "name": "rentitout",
+  "version": "1.0.0",
+  "description": "\"# RentItOut\" \r edit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
