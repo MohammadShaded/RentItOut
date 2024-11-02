@@ -1,4 +1,4 @@
-import database from "../config/database.js";
+import database from "../config/db.js";
 import { v4 as uuid } from "uuid";
 
 export async function addItem(item) {

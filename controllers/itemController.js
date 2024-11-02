@@ -5,7 +5,7 @@ import {
   deleteItem,
   getItems,
 } from "../models/item.js";
-import database from "../config/database.js";
+import database from "../config/db.js";
 import axios from "axios";
 
 export const createItemController = async (request, response) => {
