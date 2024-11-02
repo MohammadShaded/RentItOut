@@ -12,6 +12,20 @@ const Rental = {
         );
     },
 
+    getAllRentals: () => {
+        return db.execute('SELECT * FROM Rental');
+    },
+    getRentalById: (rental_id) => {
+        return db.execute('SELECT * FROM Rental WHERE rental_id = ?', [rental_id]);
+    },
+    getItemById: (item_id) => {
+        return db.execute('SELECT * FROM Item WHERE item_id = ?', [item_id]);
+    },
+    getUserById: (userId) => {
+        return db.execute('SELECT * FROM User WHERE user_id = ?', [userId]);
+    },
+
+
 };
 
 
