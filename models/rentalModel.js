@@ -24,6 +24,16 @@ const Rental = {
     getUserById: (userId) => {
         return db.execute('SELECT * FROM User WHERE user_id = ?', [userId]);
     },
+    updateRental: (rentalId, data) => {
+        const fields = Object.keys(data).map(key => `${key} = ?`).join(', ');
+        const values = Object.values(data);
+        return db.execute(`UPDATE Rental SET ${fields} WHERE rental_id = ?`, [...values, rentalId]);
+    },
+
+    updateRentalStatus: (rental_id, status) => {
+        return db.execute('UPDATE Rental SET status = ? WHERE rental_id = ?', [status, rental_id]);
+    },
+
 
 
 };

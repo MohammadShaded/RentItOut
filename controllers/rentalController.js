@@ -80,4 +80,139 @@ exports.getRentalById = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
+
+    
+exports.updateRental = async (req, res) => {
+    const userId = req.headers.user_id;
+    const rentalId = req.params.rental_id;
+
+    try {
+        const [userRows] = await Rental.getUserById(userId);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const [rentalRows] = await Rental.getRentalById(rentalId);
+        if (rentalRows.length === 0) {
+            return res.status(404).json({ message: 'Rental not found' });
+        }
+
+        const rental = rentalRows[0];
+        const [itemRows] = await Rental.getItemById(rental.item_id);
+        if (itemRows.length === 0) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+        const ownerId = itemRows[0].owner_id;
+        
+
+        if (parseInt(userId) !== ownerId) {
+            return res.status(401).json({ message: 'You do not have permission to update this rental.' });
+        }
+
+        await Rental.updateRental(rentalId, req.body);
+        res.json({Rental:req.body, message: 'Rental updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+
+
+
+
+exports.updateRentalStatus = async (req, res) => {
+    const userId = req.headers.user_id; 
+
+    try {
+
+        const [userRows] = await Rental.getUserById(userId);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const [rentalRows] = await Rental.getRentalById(req.params.rental_id);
+        if (rentalRows.length === 0) {
+            return res.status(404).json({ message: 'Rental not found' });
+        }
+
+        const rental = rentalRows[0];
+        const itemId = rental.item_id; 
+
+
+        const [itemRows] = await Rental.getItemById(itemId);
+        if (itemRows.length === 0) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+
+        const ownerId = itemRows[0].owner_id; 
+
+        if (parseInt(userId) !== ownerId) {
+            return res.status(401).json({ userId:ownerId,message: 'You do not have permission to update this rental.' });
+        }
+
+
+        const status = req.body.status;
+        if (['active', 'completed', 'canceled'].includes(status)) {
+            await Rental.updateRentalStatus(req.params.rental_id, status);
+            return res.json({ status: status, message: 'Rental status updated successfully' });
+        } else {
+            return res.status(400).json({ 
+                error: `The status ${status} is not allowed. The status must be one of the following: active, completed, canceled.` 
+            });       
+        }
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+exports.cancelRental = async (req, res) => {
+    const userId = req.headers.user_id;
+    const rentalId = req.params.rental_id;
+
+    try {
+        const [userRows] = await Rental.getUserById(userId);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const [rentalRows] = await Rental.getRentalById(rentalId);
+        if (rentalRows.length === 0) {
+            return res.status(404).json({ message: 'Rental not found' });
+        }
+
+        const rental = rentalRows[0];
+        const [itemRows] = await Rental.getItemById(rental.item_id);
+        if (itemRows.length === 0) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+
+        const ownerId = itemRows[0].owner_id;
+
+        if (parseInt(userId) !== ownerId) {
+            return res.status(401).json({ message: 'You do not have permission to cancel this rental.' });
+        }
+
+        const currentDate = new Date();
+        const startDate = new Date(rental.start_date);
+
+        if (currentDate >= startDate) {
+            return res.status(400).json({ message: 'Cannot cancel rental after the start date.' });
+        }
+
+        await Rental.updateRentalStatus(rentalId, 'canceled');
+        res.json({ message: 'Rental canceled successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+
+
 };
