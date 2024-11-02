@@ -4,6 +4,7 @@ import {
   updateItem,
   deleteItem,
   getItems,
+  getTrendingItems,
 } from "../models/item.js";
 import database from "../config/db.js";
 import axios from "axios";
@@ -95,7 +96,7 @@ export const filterItemsController = async (request, response) => {
       );
 
       const locationFormat = [
-        [location.longitude, location.latitude], 
+        [location.longitude, location.latitude],
         [itemLocation[0].longitude, itemLocation[0].latitude],
       ];
       console.log("Computing distance between locations:", locationFormat);
@@ -125,20 +126,27 @@ export const filterItemsController = async (request, response) => {
     let minDistance = Infinity;
 
     items.forEach((item, index) => {
-      const distance = distances[index]; // Adjusting index
+      const distance = distances[index];
       if (distance !== null && distance < minDistance) {
         minDistance = distance;
         closestItem = item;
       }
     });
     console.log("Closest item found:", closestItem);
-    // Respond with both the items and the closest item
-  response.status(200).json({
-    items,
-    closestItem: closestItem || null, // Ensure null if no closest item found
-  });
-} catch (error) {
-  console.error("Error in processing:", error);
-  return response.status(500).json({ error: "An error occurred" });
-}
+    response.status(200).json({
+      items,
+      closestItem: closestItem || null,
+    });
+  } catch (error) {
+    console.error("Error in processing:", error);
+    return response.status(500).json({ error: "An error occurred" });
+  }
+};
+export const getTrendingItemsController = async (request, response) => {
+  try {
+    const trendingItems = await getTrendingItems();
+    response.status(200).json(trendingItems);
+  } catch (error) {
+    response.status(500).json({ message: "Error fetching trending items" });
+  }
 };
