@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import {createItemController,getItemController,updateItemController,deleteItemController,filterItemsController} from '../controllers/item.js';
+import {createItemController,getItemController,updateItemController,deleteItemController,filterItemsController} from '../controllers/itemController.js';
 
 router.get('/filter', filterItemsController);
 router.post('/',createItemController);
