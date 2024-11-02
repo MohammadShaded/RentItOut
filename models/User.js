@@ -18,7 +18,18 @@ const User = {
         return rows[0]; // Returns the user record if found, otherwise undefined
     },
 
-    // Other model methods as needed...
+    addItemTofav: async(user_id,item_id)=>{
+        // Insert the item into the user's favorites
+        const insertQuery = 'INSERT INTO Favorites (user_id, item_id) VALUES (?, ?)';
+        await pool.query(insertQuery, [user_id, item_id]);
+    },
+    checkExisting: async(user_id,item_id) =>{
+        const checkQuery = 'SELECT * FROM Favorites WHERE user_id = ? AND item_id = ?';
+        const [existing] = await pool.query(checkQuery, [user_id, item_id]);
+        return existing;
+    }
 };
+
+
 
 export default User;
