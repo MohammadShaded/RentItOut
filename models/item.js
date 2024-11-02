@@ -84,3 +84,39 @@ export async function deleteItem(id) {
 export async function filterItems(items) {
 
 }
+export async function getItems({ category_id, price_min, price_max, status }) {
+  try {
+    
+    // Initialize base query and parameters array
+    let query = "SELECT * FROM Item WHERE 1=1"; // `1=1` allows appending conditions easily
+    const queryParams = [];
+
+    // Apply filters based on available parameters
+    if (category_id) {
+      query += " AND category_id = ?";
+      queryParams.push(category_id);
+    }
+
+    if (price_min !== undefined) {
+      query += " AND price_per_day >= ?";
+      queryParams.push(price_min);
+    }
+
+    if (price_max !== undefined) {
+      query += " AND price_per_day <= ?";
+      queryParams.push(price_max);
+    }
+
+    if (status !== undefined) {
+      query += " AND status = ?";
+      queryParams.push(status);
+    }
+
+    // Execute the query with the parameters
+    const [rows] = await database.query(query, queryParams);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    throw error;
+  }
+}
