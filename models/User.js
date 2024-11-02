@@ -27,7 +27,16 @@ const User = {
         const checkQuery = 'SELECT * FROM Favorites WHERE user_id = ? AND item_id = ?';
         const [existing] = await pool.query(checkQuery, [user_id, item_id]);
         return existing;
+    },
+    updatePassword: async(hashedPassword, email)=>{
+        // Update the user's password
+        await pool.query(
+            'UPDATE User SET password = ? WHERE email = ?',
+            [hashedPassword, email]
+        );
     }
+
+
 };
 
 
