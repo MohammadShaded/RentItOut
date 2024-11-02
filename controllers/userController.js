@@ -69,3 +69,22 @@ export const logoutUser = async (req, res) => {
     addToBlacklist(token);
     res.json({ message: 'User logged out successfully' });
 };
+
+export const addItemToFavourite =async (req, res)=>{
+    const { uid,iid } = req.params; // Get user ID and item ID from URL parameters
+
+    try {
+        // Check if the item is already in the user's favorites
+        const existing = await User.checkExisting(uid,iid);
+        if (existing.length > 0) {
+            return res.status(400).json({ message: 'Item is already in favorites' });
+        }
+        // Insert the item into the user's favorites
+        User.addItemTofav(uid,iid)
+
+        res.status(201).json({ message: 'Item added to favorites successfully' });
+    } catch (error) {
+        console.error('Error adding item to favorites:', error);
+        res.status(500).json({ message: 'Error adding item to favorites' });
+    }
+};
