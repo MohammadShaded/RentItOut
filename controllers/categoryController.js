@@ -1,4 +1,4 @@
-import { createCategory } from "../models/category.js";
+import { createCategory,getCategories,getCategory } from "../models/category.js";
 
 export const createCategoryController = async (request, response) => {
   try {
@@ -11,3 +11,22 @@ export const createCategoryController = async (request, response) => {
     response.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const getCategoriesController = async (request, response) => {
+try{
+    const categories = await getCategories();
+    response.json(categories);
+  } catch (error) {
+    response.status(500).json({ message: "Internal server error" });
+}
+}
+export const getCategoryController = async (request, response) => {
+try{
+    const id = request.params.id;
+    const category = await getCategory(id);
+    if (!category) response.status(404).json({ message: "Category not found" });
+    else response.json(category);
+  } catch (error) {
+    response.status(500).json({ message: "Internal server error" });
+}
+}
