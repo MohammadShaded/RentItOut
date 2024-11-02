@@ -34,6 +34,9 @@ const Rental = {
         return db.execute('UPDATE Rental SET status = ? WHERE rental_id = ?', [status, rental_id]);
     },
 
+    deleteRental: (rental_id) => {
+        return db.execute('DELETE FROM Rental WHERE rental_id = ?', [rental_id]);
+    }
 
 
 };
