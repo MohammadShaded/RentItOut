@@ -1,4 +1,3 @@
-import db from "../config/db.js";
 import database from "../config/db.js";
 import { v4 as uuid } from "uuid";
 
@@ -118,7 +117,7 @@ export async function getItems({ category_id, price_min, price_max, status }) {
 
 export async function getTrendingItems() {
   try {
-    const [rows] = await db.query(
+    const [rows] = await database.query(
       `SELECT * FROM Item 
      WHERE status = 'available' 
      ORDER BY rating DESC 
