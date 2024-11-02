@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { isBlacklisted } from '../blacklist.js';
 
 dotenv.config();
 
@@ -11,6 +12,10 @@ const authenticateToken = (req, res, next) => {
     if (!token) {
         // If no token is provided, deny access
         return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    if (isBlacklisted(token)) {
+        return res.status(403).json({ message: 'Token has been invalidated. Please log in again.' });
     }
 
     // Verify the token

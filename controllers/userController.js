@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
+import { addToBlacklist } from '../blacklist.js';
+
 dotenv.config();
 
 // Register a new user
@@ -51,4 +53,19 @@ export const loginUser = async (req, res) => {
         console.error('Error logging in user:', error);
         res.status(500).json({ message: 'Error logging in user' });
     }
+};
+
+
+// Logout route to invalidate the token
+export const logoutUser = async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(400).json({ message: 'No token provided' });
+    }
+
+    // Add token to blacklist
+    addToBlacklist(token);
+    res.json({ message: 'User logged out successfully' });
 };
