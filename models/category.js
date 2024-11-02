@@ -29,22 +29,33 @@ export async function existCategory(name) {
   }
 }
 export async function getCategories() {
-    try {
-      const [rows] = await database.query("SELECT * FROM Category");
-      return rows;
-    } catch (error) {
-      throw error;
-    }
+  try {
+    const [rows] = await database.query("SELECT * FROM Category");
+    return rows;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export async function getCategory(id) {
-    try {
-      const [rows] = await database.query(
-        `SELECT * FROM Category WHERE category_id =?`,
-        [id]
-      );
-      return rows[0];
-    } catch (error) {
-      throw error;
-    }
+  try {
+    const [rows] = await database.query(
+      `SELECT * FROM Category WHERE category_id =?`,
+      [id]
+    );
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
+}
+export async function updateCategory(id, updatedCategory) {
+  try {
+    const [rows] = await database.query(
+      `UPDATE Category SET name=?, description=? WHERE category_id=?`,
+      [updatedCategory.name, updatedCategory.description, id]
+    );
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
 }
