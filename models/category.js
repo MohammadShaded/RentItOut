@@ -83,3 +83,15 @@ try{
 }
 
 }
+
+export async function getCategoryBasedOnName(name) {
+    try {
+    const [rows] = await database.query(
+      `SELECT * FROM Category WHERE name=?`,
+      [name]
+    );
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
+}

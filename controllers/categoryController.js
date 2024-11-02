@@ -5,6 +5,7 @@ import {
   updateCategory,
   deleteCategory,
   getItemsBasedOnCategory,
+  getCategoryBasedOnName,
 } from "../models/category.js";
 
 export const createCategoryController = async (request, response) => {
@@ -77,3 +78,14 @@ try{
 }
 
 }
+
+export const getCategoryBasedOnNameController = async (request, response) => {
+    try {
+        const name = request.query.categoryName;
+        const category = await getCategoryBasedOnName(name);
+        if (!category) response.status(404).json({ message: "Category not found" });
+        else response.status(200).json(category);
+    } catch (error) {
+        response.status(500).json({ message: "Internal server error" });
+    }
+};
