@@ -1,4 +1,29 @@
 {
+
+    "name": "RentItOut",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "axios": "^1.7.7",
+        "dotenv": "^16.4.5",
+        "express": "^4.21.0",
+        "mysql2": "^3.11.2",
+        "uuid": "^10.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    }
+
   "name": "rentitout",
   "version": "1.0.0",
   "description": "\"# RentItOut\" \r edit",
@@ -14,4 +39,5 @@
     "dotenv": "^16.4.5",
     "mysql2": "^3.11.3"
   }
+
 }
