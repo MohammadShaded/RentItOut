@@ -1,7 +1,11 @@
 // controllers/rentalController.js
-const Rental = require('../models/rentalModel');
-const { v4: uuidv4 } = require('uuid'); 
-exports.createRental = async (req, res) => {
+
+import Rental from '../models/rentalModel.js';
+
+import { v4 as uuidv4 } from 'uuid';
+
+const rentalController = {
+createRental : async (req, res) => {
     const userId = req.headers.user_id; 
 
     try {
@@ -23,10 +27,9 @@ exports.createRental = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+},
 
-
-exports.getAllRentals = async (req, res) => {
+getAllRentals : async (req, res) => {
     const userId = req.headers.user_id;
     try {
         const [userRows] = await Rental.getUserById(userId);
@@ -43,9 +46,9 @@ exports.getAllRentals = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+},
 
-exports.getRentalById = async (req, res) => {
+getRentalById : async (req, res) => {
     const rentalId = req.params.rental_id;
     const userId = req.headers.user_id; 
 
@@ -80,10 +83,11 @@ exports.getRentalById = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+},
 
 
-    
-exports.updateRental = async (req, res) => {
+
+updateRental : async (req, res) => {
     const userId = req.headers.user_id;
     const rentalId = req.params.rental_id;
 
@@ -115,7 +119,7 @@ exports.updateRental = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+},
 
 
 
@@ -123,7 +127,7 @@ exports.updateRental = async (req, res) => {
 
 
 
-exports.updateRentalStatus = async (req, res) => {
+updateRentalStatus : async (req, res) => {
     const userId = req.headers.user_id; 
 
     try {
@@ -166,11 +170,11 @@ exports.updateRentalStatus = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
-};
+},
 
 
 
-exports.cancelRental = async (req, res) => {
+cancelRental : async (req, res) => {
     const userId = req.headers.user_id;
     const rentalId = req.params.rental_id;
 
@@ -209,10 +213,13 @@ exports.cancelRental = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+},
 
 
-exports.deleteRental = async (req, res) => {
+
+
+
+deleteRental : async (req, res) => {
     const rentalId = req.params.rental_id;
     const userId = req.headers.user_id; 
     
@@ -249,9 +256,7 @@ exports.deleteRental = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
-
-
-
+}
 
 };
+export default rentalController;

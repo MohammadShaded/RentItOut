@@ -1,6 +1,7 @@
 // models/rentalModel.js
-const db = require('../config/db');
 
+
+import db from '../config/db.js';
 
 const Rental = {
     createRental: (rentalData,rental_id) => {
@@ -11,7 +12,6 @@ const Rental = {
             [rental_id,item_id, renter_id, start_date, end_date, total_price, insurance_id, status]
         );
     },
-
     getAllRentals: () => {
         return db.execute('SELECT * FROM Rental');
     },
@@ -24,6 +24,8 @@ const Rental = {
     getUserById: (userId) => {
         return db.execute('SELECT * FROM User WHERE user_id = ?', [userId]);
     },
+
+
     updateRental: (rentalId, data) => {
         const fields = Object.keys(data).map(key => `${key} = ?`).join(', ');
         const values = Object.values(data);
@@ -38,10 +40,9 @@ const Rental = {
         return db.execute('DELETE FROM Rental WHERE rental_id = ?', [rental_id]);
     }
 
-
 };
 
 
+export default Rental;
 
 
-module.exports = Rental;

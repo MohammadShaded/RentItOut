@@ -1,6 +1,7 @@
 // routes/rentalRoutes.js
-const express = require('express');
-const rentalController = require('../controllers/rentalController');
+import express from 'express';
+import rentalController from '../controllers/rentalController.js';
+
 const router = express.Router();
 
 router.post('/', rentalController.createRental);
@@ -10,4 +11,7 @@ router.put('/:rental_id', rentalController.updateRental);
 router.put('/:rental_id/status', rentalController.updateRentalStatus);
 router.put('/:rental_id/cancel', rentalController.cancelRental);
 router.delete('/:rental_id', rentalController.deleteRental);
-module.exports = router;
+
+export default router;
+
+
