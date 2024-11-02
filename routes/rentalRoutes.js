@@ -11,7 +11,7 @@ router.put('/:rental_id', rentalController.updateRental);
 router.put('/:rental_id/status', rentalController.updateRentalStatus);
 router.put('/:rental_id/cancel', rentalController.cancelRental);
 router.delete('/:rental_id', rentalController.deleteRental);
-
+//use
 export default router;
 
 
