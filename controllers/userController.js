@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 import { addToBlacklist } from '../blacklist.js';
+import { sendResetEmail } from '../utils/email.js';
 
 dotenv.config();
 
@@ -86,5 +87,58 @@ export const addItemToFavourite =async (req, res)=>{
     } catch (error) {
         console.error('Error adding item to favorites:', error);
         res.status(500).json({ message: 'Error adding item to favorites' });
+    }
+};
+
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        // Check if user already exists
+        const existingUser = await User.findUserByEmail(email);
+        if (existingUser === 0) {
+            return res.status(404).json({ message: 'User not found with this email' });
+        }
+
+        // Generate a JWT token for password reset (valid for 1 hour)
+        const resetToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Send email with reset link
+        const resetLink = `http://localhost:5000/users/reset-password/${resetToken}`;
+        const subject = 'Password Reset Request';
+        const message = `You requested a password reset. Please use the following link to reset your password: ${resetLink}\n\nThis link is valid for 1 hour.`;
+
+        await sendResetEmail(email, subject, message);
+
+        res.status(200).json({ message: 'Password reset email sent successfully' });
+    } catch (error) {
+        console.error('Error in forgot password:', error);
+        res.status(500).json({ message: 'Error in processing the password reset request' });
+    }
+};
+
+
+export const resetPassword = async (req, res) => {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    try {
+        // Verify and decode the reset token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const email = decoded.email;
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await User.updatePassword(hashedPassword,email);
+
+        res.status(200).json({ message: 'Password has been reset successfully' });
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(400).json({ message: 'Reset token has expired' });
+        } else {
+            console.error('Error in resetting password:', error);
+            res.status(500).json({ message: 'Error in resetting password' });
+        }
     }
 };
