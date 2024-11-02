@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import "./config/db.js"; // Ensure db.js is loaded after dotenv.config()
 
-import itemRouters from "./routes/item.js";
+import itemRouters from "./routes/itemRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRouters from "./routes/categoryRoutes.js";
 import rentalRoutes from "./routes/rentalRoutes.js";
