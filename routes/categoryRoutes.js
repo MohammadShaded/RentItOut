@@ -1,8 +1,9 @@
 import express from "express";
 const router = express.Router();
-import { createCategoryController,getCategoriesController,getCategoryController,updateCategoryController,deleteCategoryController } from "../controllers/categoryController.js";
+import { createCategoryController,getCategoriesController,getCategoryController,updateCategoryController,deleteCategoryController,getItemsBasedOnCategoryController } from "../controllers/categoryController.js";
 
 router.post("/", createCategoryController);
+router.get("/:categoryId/items",getItemsBasedOnCategoryController);
 router.get("/:id",getCategoryController);
 router.get("/", getCategoriesController);
 router.put("/:id",updateCategoryController);

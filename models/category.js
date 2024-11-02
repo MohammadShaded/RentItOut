@@ -70,3 +70,16 @@ export async function deleteCategory(id) {
     throw error;
   }
 }
+
+export async function getItemsBasedOnCategory(id) { 
+try{
+    const [rows] = await database.query(
+      `SELECT * FROM Item WHERE category_id=?`,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+}
+
+}
