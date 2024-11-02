@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const rentalController = {
 createRental : async (req, res) => {
-    const userId = req.headers.user_id; 
+    const userId = req.user.user_id;
 
     try {
         const [userRows] = await Rental.getUserById(userId);
@@ -30,7 +30,7 @@ createRental : async (req, res) => {
 },
 
 getAllRentals : async (req, res) => {
-    const userId = req.headers.user_id;
+    const userId = req.user.user_id;
     try {
         const [userRows] = await Rental.getUserById(userId);
         if (userRows.length === 0) {
@@ -50,7 +50,7 @@ getAllRentals : async (req, res) => {
 
 getRentalById : async (req, res) => {
     const rentalId = req.params.rental_id;
-    const userId = req.headers.user_id; 
+    const userId = req.user.user_id;
 
     try {
         const [rentalRows] = await Rental.getRentalById(rentalId);
@@ -88,7 +88,7 @@ getRentalById : async (req, res) => {
 
 
 updateRental : async (req, res) => {
-    const userId = req.headers.user_id;
+    const userId = req.user.user_id;
     const rentalId = req.params.rental_id;
 
     try {
@@ -128,7 +128,7 @@ updateRental : async (req, res) => {
 
 
 updateRentalStatus : async (req, res) => {
-    const userId = req.headers.user_id; 
+    const userId = req.user.user_id;
 
     try {
 
@@ -175,7 +175,7 @@ updateRentalStatus : async (req, res) => {
 
 
 cancelRental : async (req, res) => {
-    const userId = req.headers.user_id;
+    const userId = req.user.user_id;
     const rentalId = req.params.rental_id;
 
     try {
@@ -221,7 +221,7 @@ cancelRental : async (req, res) => {
 
 deleteRental : async (req, res) => {
     const rentalId = req.params.rental_id;
-    const userId = req.headers.user_id; 
+    const userId = req.user.user_id;
     
 
     try {
