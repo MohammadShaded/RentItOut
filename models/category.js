@@ -59,3 +59,14 @@ export async function updateCategory(id, updatedCategory) {
     throw error;
   }
 }
+export async function deleteCategory(id) {
+  try {
+    const [rows] = await database.query(
+      `DELETE FROM Category WHERE category_id=?`,
+      [id]
+    );
+    return rows[0];
+  } catch (error) {
+    throw error;
+  }
+}
