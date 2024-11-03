@@ -1,4 +1,5 @@
 import {
+    addPayment,
     requestRefund
     
 } from "../models/payment.js" ;
@@ -6,6 +7,21 @@ import {
 import db from "../config/db.js";
 import axios from "axios";
 
+// Create a new payment
+export const createPaymentController = async (req, res) => {
+    console.log("hi");
+   try {
+        const payment = req.body;
+
+        console.log("controller");
+
+        await addPayment(payment);
+        res.status(201).json(payment);
+    } catch (error) {
+        console.error('Error creating payment:', error);
+        res.status(400).json({ message: error.message });
+    }
+};
 export const refundPaymentController = async (req, res) => {
     try {
     
