@@ -5,8 +5,10 @@ import Rental from "../models/rentalModel.js";
 import { v4 as uuidv4 } from "uuid";
 
 const rentalController = {
-  createRental: async (req, res) => {
-    const userId = req.headers.user_id;
+
+createRental : async (req, res) => {
+    const userId = req.user.user_id;
+
 
     try {
       const [userRows] = await Rental.getUserById(userId);
@@ -35,8 +37,10 @@ const rentalController = {
     }
   },
 
-  getAllRentals: async (req, res) => {
-    const userId = req.headers.user_id;
+
+getAllRentals : async (req, res) => {
+    const userId = req.user.user_id;
+
     try {
       const [userRows] = await Rental.getUserById(userId);
       if (userRows.length === 0) {
@@ -60,7 +64,9 @@ const rentalController = {
 
   getRentalById: async (req, res) => {
     const rentalId = req.params.rental_id;
-    const userId = req.headers.user_id;
+
+    const userId = req.user.user_id;
+
 
     try {
       const [rentalRows] = await Rental.getRentalById(rentalId);
@@ -101,8 +107,11 @@ const rentalController = {
     }
   },
 
-  updateRental: async (req, res) => {
-    const userId = req.headers.user_id;
+
+
+updateRental : async (req, res) => {
+    const userId = req.user.user_id;
+
     const rentalId = req.params.rental_id;
 
     try {
@@ -138,8 +147,11 @@ const rentalController = {
     }
   },
 
-  updateRentalStatus: async (req, res) => {
-    const userId = req.headers.user_id;
+
+
+updateRentalStatus : async (req, res) => {
+    const userId = req.user.user_id;
+
 
     try {
       const [userRows] = await Rental.getUserById(userId);
@@ -188,8 +200,11 @@ const rentalController = {
     }
   },
 
-  cancelRental: async (req, res) => {
-    const userId = req.headers.user_id;
+
+
+cancelRental : async (req, res) => {
+    const userId = req.user.user_id;
+
     const rentalId = req.params.rental_id;
 
     try {
@@ -237,7 +252,10 @@ const rentalController = {
 
   deleteRental: async (req, res) => {
     const rentalId = req.params.rental_id;
-    const userId = req.headers.user_id;
+
+    const userId = req.user.user_id;
+    
+
 
     try {
       const [rentalRows] = await Rental.getRentalById(rentalId);
