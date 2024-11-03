@@ -9,13 +9,14 @@ import {
   getItemsBasedOnCategoryController,
   getCategoryBasedOnNameController,
 } from "../controllers/categoryController.js";
+import authenticateToken from "../middleware/authenticateToken.js";
 
-router.post("/", createCategoryController);
-router.get("/search", getCategoryBasedOnNameController);
-router.get("/:categoryId/items", getItemsBasedOnCategoryController);
-router.get("/:id", getCategoryController);
-router.get("/", getCategoriesController);
-router.put("/:id", updateCategoryController);
-router.delete("/:id", deleteCategoryController);
+router.post("/",authenticateToken, createCategoryController);
+router.get("/search",authenticateToken, getCategoryBasedOnNameController);
+router.get("/:categoryId/items",authenticateToken, getItemsBasedOnCategoryController);
+router.get("/:id",authenticateToken, getCategoryController);
+router.get("/", authenticateToken,getCategoriesController);
+router.put("/:id",authenticateToken, updateCategoryController);
+router.delete("/:id",authenticateToken, deleteCategoryController);
 
 export default router;

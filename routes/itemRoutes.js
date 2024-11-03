@@ -8,12 +8,13 @@ import {
   filterItemsController,
   getTrendingItemsController,
 } from "../controllers/itemController.js";
+import authenticateToken from "../middleware/authenticateToken.js";
 
-router.get("/filter", filterItemsController);
-router.get("/trending", getTrendingItemsController);
-router.get("/:id", getItemController);
-router.post("/", createItemController);
-router.put("/:id", updateItemController);
-router.delete("/:id", deleteItemController);
+router.get("/filter",authenticateToken, filterItemsController);
+router.get("/trending",authenticateToken, getTrendingItemsController);
+router.get("/:id",authenticateToken, getItemController);
+router.post("/",authenticateToken, createItemController);
+router.put("/:id",authenticateToken, updateItemController);
+router.delete("/:id", authenticateToken,deleteItemController);
 
 export default router;

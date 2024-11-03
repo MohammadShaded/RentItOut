@@ -26,7 +26,10 @@ const authenticateToken = (req, res, next) => {
         }
 
         // If the token is valid, add user info to the request object
-        req.user = user;
+        req.user = {
+            user_id: user.id,
+            role: user.role
+        }
         next(); // Move to the next middleware or route handler
     });
 };
