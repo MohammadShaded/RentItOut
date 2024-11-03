@@ -1,5 +1,6 @@
 import {
     addPayment,
+    getPaymentById,
     requestRefund
     
 } from "../models/payment.js" ;
@@ -22,6 +23,20 @@ export const createPaymentController = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+export const getPaymentByIdController = async (req, res) => {
+    try {
+        console.log("get");
+        const payment_id  = req.params.payment_id ;
+        const payment = await getPaymentById(payment_id)
+        
+        res.status(200).json(payment);
+    } catch (error) {
+        console.error('Error retrieving payment:', error);
+        res.status(404).json({ message: "payment not found" });
+    }
+};
+
 export const refundPaymentController = async (req, res) => {
     try {
     
