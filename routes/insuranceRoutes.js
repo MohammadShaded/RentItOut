@@ -12,7 +12,7 @@ router.get('/all/providers', authenticateToken,insuranceController.getAllProvide
 router.put('/:insurance_id', authenticateToken,insuranceController.updateInsuranceById);
 router.put('/name/:provider_name',authenticateToken, insuranceController.updateInsuranceByName);
 router.delete('/:insurance_id',authenticateToken, insuranceController.deleteInsurance);
-
+//
 
 
 
