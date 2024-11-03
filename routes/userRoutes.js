@@ -7,7 +7,8 @@ import { registerUser,
         forgotPassword,
         resetPassword,
         retriveProfile,
-        updateProfile} from '../controllers/userController.js';
+        updateProfile,
+        getUserActivity} from '../controllers/userController.js';
 import authenticateToken from '../middleware/authenticateToken.js';
 
 const router = express.Router();
@@ -24,6 +25,7 @@ router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);       
 router.get('/:id', authenticateToken,retriveProfile);
 router.put('/:id', authenticateToken, updateProfile);
+router.get('/:id/activity', authenticateToken, getUserActivity);
 
 export default router;
 

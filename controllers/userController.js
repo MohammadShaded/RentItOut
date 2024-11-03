@@ -198,3 +198,40 @@ export const updateProfile = async (req, res) => {
         res.status(500).json({ message: 'Error updating user profile' });
     }
     };
+
+    export const getUserActivity =async (req, res) =>{
+        const reqId = req.params.id;
+        const userId = req.user.user_id;
+        
+        if(reqId!= userId){
+             return res.status(403).json({ message: 'Unauthorized access' });
+         }
+
+        try {
+            let activity=null;
+            console.log(req.user.role);
+             if(req.user.role=='Owner') {
+                console.log('Activity ');
+                 activity = await User.getUserItems(reqId);
+
+            }
+            else if(req.user.role=='Renter'){
+                console.log('renting ');
+                     activity = await User.getUserActivity(reqId);    
+            }
+
+            
+            if (!activity) {
+                return res.status(404).json({ message: 'User activity not found' });
+            }
+            
+            res.json({
+                reqId,
+                recent_Activities: activity,
+            });            
+        } catch (error) {
+            console.error('Error retrieving user activity:', error);
+            res.status(500).json({ message: 'Error retrieving user activity' });
+        }
+        
+    };
