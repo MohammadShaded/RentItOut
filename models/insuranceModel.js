@@ -38,6 +38,9 @@ const Insurance = {
             [ data.premium, data.terms, ProviderName]
         );
     },
+    deleteInsurance: (insurance_id) => {
+        return db.execute('DELETE FROM Insurance WHERE insurance_id = ?', [insurance_id]);
+    }
 
   
     

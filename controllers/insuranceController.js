@@ -127,6 +127,24 @@ updateInsuranceByName : async (req, res) => {
     }
 },
 
+deleteInsurance : async (req, res) => {
+    const userId = req.user.user_id; 
+    try {
+        const [userRows] = await Insurance.getUserById(userId);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if(userRows[0].role=='Admin'){
+        await Insurance.deleteInsurance(req.params.insurance_id);
+        res.json({ message: 'Insurance deleted successfully' });}
+        else{
+            res.status(401).json({ role:userRows[0].role,message: 'You do not have permission to delete this insurence' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 
 
 }
