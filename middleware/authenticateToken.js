@@ -5,10 +5,8 @@ import { isBlacklisted } from '../blacklist.js';
 dotenv.config();
 
 const authenticateToken = (req, res, next) => {
-    // Get the token from the Authorization header
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Extract the token after "Bearer"
-
+    const token = authHeader && authHeader.split(' ')[1]; 
     if (!token) {
         // If no token is provided, deny access
         return res.status(401).json({ message: 'Access denied. No token provided.' });
