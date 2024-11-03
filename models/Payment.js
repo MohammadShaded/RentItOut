@@ -26,6 +26,22 @@ export async function addPayment(payment) {
     }
 }
 
+export async function getPaymentById(id) {
+    try {
+        const [rows] = await db.query(
+            `SELECT * FROM Payment WHERE payment_id = ?`,
+            [id]
+        );
+        console.log(rows);
+        if (!rows[0]) {
+            throw new Error("Payment not found");
+        }
+        return rows[0];
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 export async function requestRefund(paymentId) {
     try {
