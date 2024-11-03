@@ -163,3 +163,38 @@ export const retriveProfile = async  (req, res) => {
         res.status(500).json({ message: 'Error retrieving user profile' });
     }
 };
+
+export const updateProfile = async (req, res) => {
+    const reqId = req.params.id;
+    const userId = req.user.user_id;
+
+    if(reqId != userId){
+        return res.status(403).json({ message: 'Unauthorized access' });
+    }
+
+    const { name, email, phone_number,location_id } = req.body;
+    const updateData = {};
+        if (name) updateData.name = name;
+        if (email) updateData.email = email;
+        if (phone_number) updateData.phone_number = phone_number;
+        if (location_id) updateData.location_id = location_id;
+
+        try {
+
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ message: 'No valid fields provided for update.' });
+        }
+
+
+        const updatedUser = await User.updateUserById(userId, updateData);
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ message: 'User profile updated successfully', updatedUser });
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        res.status(500).json({ message: 'Error updating user profile' });
+    }
+    };

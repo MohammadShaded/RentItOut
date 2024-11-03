@@ -35,8 +35,29 @@ const User = {
             'UPDATE User SET password = ? WHERE email = ?',
             [hashedPassword, email]
         );
-    }
+    },
+    updateUserById: async(user_id, data)=> {
+        const fields = [];
+        const values = [];
 
+        // this will create the query in term of what fields 
+        for (const [key, value] of Object.entries(data)) {
+            fields.push(`${key} = ?`);
+            values.push(value);
+        }
+
+        if (fields.length === 0) {
+            return null; // No fields to update
+        }
+
+        const query = `UPDATE User SET ${fields.join(', ')} WHERE user_id = ?`;
+        values.push(user_id); // Add `user_id` as the last parameter
+
+        const [result] = await pool.query(query, values);
+        
+        // this if the user has been updated will retern it, else it will return null
+        return result.affectedRows > 0 ? { user_id, ...data } : null; 
+    }
 
 };
 
