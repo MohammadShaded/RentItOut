@@ -10,7 +10,6 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendResetEmail = async (to, subject, text) => {
-    console.log(to);
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to,
