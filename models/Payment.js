@@ -2,6 +2,31 @@ import db from "../config/db.js";
 
 import { v4 as uuid } from 'uuid';
 
+export async function addPayment(payment) {
+    const id = uuid();
+    try {
+        console.log("db");
+        const [rows] = await db.query(
+            `INSERT INTO Payment (payment_id , rental_id, user_id, amount, payment_date, payment_method, service_fee, status) 
+             VALUES ( ?, ?, ?, ?, ?, ?, ? , ?)`,
+            [
+                id,
+                payment.rental_id,
+                payment.user_id,
+                payment.amount,
+                payment.payment_date,
+                payment.payment_method,
+                payment.service_fee,
+                payment.status
+            ]
+        );
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 export async function requestRefund(paymentId) {
     try {
        
