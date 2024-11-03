@@ -31,10 +31,10 @@ export async function getItem(id) {
     const [rows] = await database.query("select * from Item where item_id =?", [
       id,
     ]);
-    console.log(rows);
     if (!rows[0]) {
       throw new Error("Item not found");
     }
+    return rows[0];
   } catch (error) {
     throw error;
   }
@@ -71,9 +71,10 @@ export async function updateItem(id, updatedItem) {
 
 export async function deleteItem(id) {
   try {
-    const [rows] = await database.query("DELETE FROM Item WHERE item_id =?", [
-      id,
-    ]);
+    const [rows] = await database.query(
+      "UPDATE Item SET status = 'rented' WHERE item_id = ?",
+      [id]
+    );
     if (rows.affectedRows == 0) {
       throw new Error("Item not found");
     }
@@ -81,17 +82,12 @@ export async function deleteItem(id) {
     throw err;
   }
 }
-export async function filterItems(items) {
-
-}
+export async function filterItems(items) {}
 export async function getItems({ category_id, price_min, price_max, status }) {
   try {
-    
-    // Initialize base query and parameters array
-    let query = "SELECT * FROM Item WHERE 1=1"; // `1=1` allows appending conditions easily
+    let query = "SELECT * FROM Item WHERE 1=1";
     const queryParams = [];
 
-    // Apply filters based on available parameters
     if (category_id) {
       query += " AND category_id = ?";
       queryParams.push(category_id);
@@ -111,12 +107,28 @@ export async function getItems({ category_id, price_min, price_max, status }) {
       query += " AND status = ?";
       queryParams.push(status);
     }
-
-    // Execute the query with the parameters
     const [rows] = await database.query(query, queryParams);
     return rows;
   } catch (error) {
     console.error("Error fetching items:", error);
     throw error;
+  }
+}
+
+export async function getTrendingItems() {
+  try {
+    const [rows] = await database.query(
+      `SELECT * FROM Item 
+     WHERE status = 'available' 
+     ORDER BY rating DESC 
+     LIMIT 10`
+    );
+
+    if (!rows) {
+      throw new Error("No trending items found");
+    }
+    return rows;
+  } catch (error) {
+    throw new Error("Error fetching trending items:", error);
   }
 }
