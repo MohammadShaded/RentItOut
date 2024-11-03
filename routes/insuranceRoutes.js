@@ -5,6 +5,10 @@ import authenticateToken from '../middleware/authenticateToken.js';
 const router = express.Router();
 
 router.post('/',authenticateToken, insuranceController.createInsurance);
+router.get('/:insurance_id',authenticateToken, insuranceController.getInsuranceById);
+router.get('/name/:provider_name',authenticateToken ,insuranceController.getInsuranceByName);
+router.get('/', authenticateToken,insuranceController.getAllInsurance);
+router.get('/all/providers', authenticateToken,insuranceController.getAllProviders);
 
 
 
