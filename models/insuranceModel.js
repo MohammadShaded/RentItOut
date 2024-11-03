@@ -26,6 +26,18 @@ const Insurance = {
     getAllProviders: () => {
         return db.execute('SELECT DISTINCT provider_name FROM Insurance');
     },
+    updateInsuranceById: (insurance_id, data) => {
+        return db.execute(
+            'UPDATE Insurance SET provider_name = ?, premium = ?, terms = ? WHERE insurance_id = ?',
+            [data.provider_name, data.premium, data.terms, insurance_id]
+        );
+    },
+    updateInsuranceByName: (ProviderName, data) => {
+        return db.execute(
+            'UPDATE Insurance SET  premium = ?, terms = ? WHERE provider_name  = ?',
+            [ data.premium, data.terms, ProviderName]
+        );
+    },
 
   
     

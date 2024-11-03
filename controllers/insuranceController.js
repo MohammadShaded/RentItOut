@@ -78,6 +78,56 @@ getAllProviders : async (req, res) => {
     }
 },
 
+updateInsuranceById : async (req, res) => {
+    const insuranceId = req.params.insurance_id;
+    const updatedData = req.body; 
+    const userId = req.user.user_id; 
+
+    try {
+        const [userRows] = await Insurance.getUserById(userId);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if(userRows[0].role=='Admin'){
+        const [result] = await Insurance.updateInsuranceById(insuranceId, updatedData);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Insurance not found' });
+        }
+        res.json({ message: 'Insurance updated successfully' });}
+        else{
+            res.status(401).json({ role:userRows[0].role,message: 'You do not have permission to update this insurence' }); 
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+},
+
+
+updateInsuranceByName : async (req, res) => {
+    const ProviderName = req.params.provider_name;
+    const updatedData = req.body; 
+    const userId = req.user.user_id; 
+
+    try {
+        const [userRows] = await Insurance.getUserById(userId);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        if(userRows[0].role=='Admin'){
+        const [result] = await Insurance.updateInsuranceByName(ProviderName, updatedData);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Insurance not found' });
+        }
+        res.json({ message: 'Insurance updated successfully' });}
+        else{
+            res.status(401).json({ role:userRows[0].role,message: 'You do not have permission to update this insurence' }); 
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+},
+
+
 
 }
 export default insuranceController;
