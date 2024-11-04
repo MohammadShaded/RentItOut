@@ -5,7 +5,7 @@ import {
 } from "../models/review.js";
 
 
-// new review
+
 export const createReviewController = async (req, res) => {
     try {
         const Review = req.body;
