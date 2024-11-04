@@ -85,3 +85,20 @@ export async function requestRefund(paymentId) {
         throw error; 
     }
 }
+
+export async function getPaymentsByUserId(user_id) {
+    try {
+        const [rows] = await db.query(
+            `SELECT * FROM Payment WHERE user_id = ? ORDER BY payment_date DESC`,
+            [user_id]
+        );
+        console.log(rows);
+        if (rows.length === 0) {
+            throw new Error("Payments not found for this user");
+        }
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
