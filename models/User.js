@@ -78,6 +78,11 @@ const User = {
         return rows;    
     },
 
+    getUsersByRole: async (role) =>{
+        const query = 'SELECT * FROM User WHERE role =?';
+        const [rows] = await pool.query(query, [role]);
+        return rows;
+    }
 
 };
 
