@@ -4,6 +4,7 @@ import {
     getReviewsByItemId,
     getUserReviews,
     updateReview,
+    deleteReview
 } from "../models/review.js";
 
 
@@ -56,6 +57,17 @@ export const editReviewController = async (req, res) => {
         const  updatereview = req.body;
         await  updateReview(ReviewId,  updatereview);
         res.status(200).json( updatereview);
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
+};
+
+// Delete review
+export const deleteReviewController = async (req, res) => {
+    try {
+        const ReviewId = req.params.id;
+        await deleteReview(ReviewId);
+        res.status(200).json({ message: "Review deleted successfully" });
       } catch (error) {
         res.status(400).json({ message: error.message });
       }
