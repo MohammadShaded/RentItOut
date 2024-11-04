@@ -85,3 +85,8 @@ export async function requestRefund(paymentId) {
         throw error; 
     }
 }
+
+export const getTotalRevenue = async() =>   {
+    const [rows] = await db.query('SELECT SUM(amount) AS totalRevenue FROM Payment WHERE status = "completed"');
+    return rows[0].totalRevenue;
+}

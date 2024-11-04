@@ -38,7 +38,21 @@ const Rental = {
 
     deleteRental: (rental_id) => {
         return db.execute('DELETE FROM Rental WHERE rental_id = ?', [rental_id]);
-    }
+    },
+    getTotalRentals: async () => {
+        const [rows] = await db.query('SELECT COUNT(*) AS total FROM Rental');
+        return rows[0].total;
+    },
+
+    getActiveRentals: async () => {
+        const [rows] = await db.query('SELECT COUNT(*) AS active FROM Rental WHERE status = "active"');
+        return rows[0].active;
+    },
+
+    getCompletedRentals: async () => {
+        const [rows] = await db.query('SELECT COUNT(*) AS completed FROM Rental WHERE status = "completed"');
+        return rows[0].completed;
+    },
 
 };
 
