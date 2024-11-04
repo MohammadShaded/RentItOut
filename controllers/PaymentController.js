@@ -1,7 +1,8 @@
 import {
     addPayment,
     getPaymentById,
-    requestRefund
+    requestRefund,
+    getPaymentsByUserId
     
 } from "../models/payment.js" ;
 
@@ -49,3 +50,17 @@ export const refundPaymentController = async (req, res) => {
         res.status(400).json({ message: error.message }); 
     }
 };
+
+export const getPaymentsByUserIdController = async (req, res) => {
+    try {
+        const  user_id  = req.params.user_id;
+        const payments = await getPaymentsByUserId(user_id);
+
+        
+        res.status(200).json(payments);
+    } catch (error) {
+        console.error('Error retrieving payments:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
