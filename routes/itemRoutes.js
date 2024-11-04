@@ -15,6 +15,6 @@ router.get("/trending",authenticateToken, getTrendingItemsController);
 router.get("/:id",authenticateToken, getItemController);
 router.post("/",authenticateToken, createItemController);
 router.put("/:id",authenticateToken, updateItemController);
-router.delete("/:id", authenticateToken,deleteItemController);
+router.delete("/:id", authenticateToken,deleteItemController);   
 
 export default router;
