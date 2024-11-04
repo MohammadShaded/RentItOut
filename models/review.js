@@ -61,7 +61,7 @@ export async function getUserReviews(user_id) {
  }
         }
 
-        // Update review
+       
 export async function updateReview (id, updateReview) {
  
     try {
