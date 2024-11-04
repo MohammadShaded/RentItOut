@@ -78,7 +78,16 @@ const User = {
         return rows;    
     },
 
+    getUsersByRole: async (role) =>{
+        const query = 'SELECT * FROM User WHERE role =?';
+        const [rows] = await pool.query(query, [role]);
+        return rows;
+    },
 
+    getTotalUsers: async () => {
+        const [rows] = await pool.query('SELECT COUNT(*) AS totalUsers FROM User');
+        return rows[0].totalUsers;
+    },
 };
 
 

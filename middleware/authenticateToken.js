@@ -8,7 +8,6 @@ const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; 
     if (!token) {
-        // If no token is provided, deny access
         return res.status(401).json({ message: 'Access denied. No token provided.' });
     }
 
@@ -16,20 +15,19 @@ const authenticateToken = (req, res, next) => {
         return res.status(403).json({ message: 'Token has been invalidated. Please log in again.' });
     }
 
-    // Verify the token
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            // If token is invalid or expired, deny access
             return res.status(403).json({ message: 'Invalid or expired token.' });
         }
 
+        
         // If the token is valid, add user info to the request object
 
         req.user = {
             user_id: user.id,
             role: user.role
         }
-        next(); // Move to the next middleware or route handler
+        next(); 
     });
 };
 

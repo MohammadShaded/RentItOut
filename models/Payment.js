@@ -86,6 +86,27 @@ export async function requestRefund(paymentId) {
     }
 }
 
+export const getTotalRevenue = async() =>   {
+    const [rows] = await db.query('SELECT SUM(service_fee) AS totalRevenue FROM Payment WHERE status = "completed"');
+    return rows[0].totalRevenue;
+}
+
+export const getRevenuePerMonth = async() =>   {
+
+    const query = `
+    SELECT 
+        DATE_FORMAT(payment_date, '%Y-%m') AS month,
+        SUM(service_fee) AS total_revenue
+    FROM Payment
+    WHERE status = 'completed'
+    GROUP BY month
+    ORDER BY month;
+`;
+const [rows] = await db.query(query);
+return rows;
+
+
+}
 export async function getPaymentsByUserId(user_id) {
     try {
         const [rows] = await db.query(
