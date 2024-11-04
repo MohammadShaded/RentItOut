@@ -1,5 +1,5 @@
 import User from '../models/User.js';
-import {getTotalRevenue} from '../models/payment.js';
+import {getTotalRevenue,getRevenuePerMonth} from '../models/payment.js';
 import Rental from "../models/rentalModel.js";
 import FlaggedContent from '../models/FlaggedContent.js';
 export const getUsersByRole = async (req, res)=>{
@@ -86,5 +86,21 @@ export const updateFlaggedContentStatus = async (req, res) => {
     } catch (error) {
         console.error('Error updating flagged content status:', error);
         res.status(500).json({ message: 'Error updating flagged content status' });
+    }
+};
+
+export const getAnalytics = async (req, res) => {
+    try {
+        if(req.user.role != 'Admin') return res.status(403).json({ message: 'Access denied. Admins only.' });
+        const rentalsPerMonth = await Rental.getRentalsPerMonth();
+        const revenuePerMonth = await getRevenuePerMonth();
+
+        res.json({
+            rentalsPerMonth,
+            revenuePerMonth,
+        });
+    } catch (error) {
+        console.error('Error fetching analytics:', error);
+        res.status(500).json({ message: 'Failed to fetch analytics data' });
     }
 };

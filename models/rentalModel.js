@@ -53,7 +53,18 @@ const Rental = {
         const [rows] = await db.query('SELECT COUNT(*) AS completed FROM Rental WHERE status = "completed"');
         return rows[0].completed;
     },
-
+    getRentalsPerMonth: async () => {
+        const query = `
+            SELECT 
+                DATE_FORMAT(start_date, '%Y-%m') AS month,
+                COUNT(*) AS total_rentals
+            FROM Rental
+            GROUP BY month
+            ORDER BY month;
+        `;
+        const [rows] = await db.query(query);
+        return rows;
+    },
 };
 
 
