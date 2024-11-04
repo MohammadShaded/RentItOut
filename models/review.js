@@ -60,3 +60,31 @@ export async function getUserReviews(user_id) {
      throw error;
  }
         }
+
+        // Update review
+export async function updateReview (id, updateReview) {
+ 
+    try {
+        const [rows] = await db.query(
+          `update Review SET  rating=?, comments=?,review_date=? where review_id=?`,
+          [
+            
+            
+            updateReview.rating,
+            updateReview.comments,
+            updateReview.review_date,
+            id,
+        ] );
+
+        if (rows.affectedRows == 0) {
+            throw new Error("Review not found or no changes were made");
+          }
+          
+          return rows;
+        } catch (err) {
+          throw err;
+        }
+
+
+
+}
