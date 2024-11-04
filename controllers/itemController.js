@@ -10,9 +10,12 @@ import database from "../config/db.js";
 import axios from "axios";
 export const createItemController = async (request, response) => {
   try {
-    const item = request.body;
-    await addItem(item);
-    response.status(201).json(item);
+    const role = request.user.role;
+    if (role == "Owner") {
+      const item = request.body;
+      await addItem(item);
+      response.status(201).json(item);
+    } else response.status(403).json({ message: "Forbidden Access" });
   } catch (error) {
     response.status(400).json({ message: error.message });
   }
@@ -30,10 +33,13 @@ export const getItemController = async (request, response) => {
 
 export const updateItemController = async (request, response) => {
   try {
+    const role = request.user.role;
+    if(role=="Owner"){
     const itemId = request.params.id;
     const updatedItem = request.body;
-    await updateItem(itemId, updatedItem);
+    await updateItem(itemId, updatedItem,request.user.id);
     response.status(200).json(updatedItem);
+    }else response.status(403).json({ message: "Forbidden Access" });
   } catch (error) {
     response.status(400).json({ message: error.message });
   }
@@ -41,9 +47,12 @@ export const updateItemController = async (request, response) => {
 
 export const deleteItemController = async (request, response) => {
   try {
+    const role = request.user.role;
+    if(role=="Owner"){
     const itemId = request.params.id;
-    await deleteItem(itemId);
+    await deleteItem(itemId,request.user.id);
     response.status(200).json({ message: "Item deleted successfully" });
+    }else response.status(403).json({ message: "Forbidden Access" });
   } catch (error) {
     response.status(400).json({ message: error.message });
   }
