@@ -23,3 +23,40 @@ export async function addReview(review)  {
         throw error;
     }
 }
+
+// get reviews by item_id
+export async function getReviewsByItemId(item_id) {
+    try {
+    
+        const [rows] = await db.query(
+            `select * from Review
+             WHERE rental_id = (select rental_id from Rental where item_id = ?)`,
+            [item_id] 
+        );
+        console.log(rows);
+        if (!rows) {
+            throw new Error("review not found");
+        }
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+    }
+      // get reviews by user_id
+export async function getUserReviews(user_id) {
+    try {
+        
+      const [rows] = await db.query(`
+          select * from Review
+            where reviewer_id = ?
+        `, [user_id]);
+
+     console.log(rows);
+     if (rows.length === 0) {
+         throw new Error("review not found for this user");
+     }
+     return rows;
+ } catch (error) {
+     throw error;
+ }
+        }
