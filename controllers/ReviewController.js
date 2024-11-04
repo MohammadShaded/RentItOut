@@ -3,6 +3,7 @@ import {
     addReview,
     getReviewsByItemId,
     getUserReviews,
+    updateReview,
 } from "../models/review.js";
 
 
@@ -46,4 +47,16 @@ export const getUserReviewsController = async (req, res) => {
         console.error('Error retrieving Reviews:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
+};
+// Update review
+export const editReviewController = async (req, res) => {
+    try {
+
+        const ReviewId = req.params.id;
+        const  updatereview = req.body;
+        await  updateReview(ReviewId,  updatereview);
+        res.status(200).json( updatereview);
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
 };
