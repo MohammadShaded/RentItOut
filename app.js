@@ -7,6 +7,8 @@ import itemRouters from "./routes/itemRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import categoryRouters from "./routes/categoryRoutes.js";
 import rentalRoutes from "./routes/rentalRoutes.js";
+import insuranceRoutes from "./routes/insuranceRoutes.js";
+import paymentRoutes from './routes/paymentRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -16,6 +18,11 @@ app.use("/users", userRoutes);
 app.use("/items", itemRouters);
 app.use('/rentals', rentalRoutes);
 app.use("/categories", categoryRouters);
+
+app.use('/payments', paymentRoutes);
+
+app.use('/insurance', insuranceRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
