@@ -1,7 +1,7 @@
 import User from '../models/User.js';
 import {getTotalRevenue} from '../models/payment.js';
 import Rental from "../models/rentalModel.js";
-
+import FlaggedContent from '../models/FlaggedContent.js';
 export const getUsersByRole = async (req, res)=>{
     const role = req.params.role;
     if(req.user.role != 'Admin') return res.status(403).json({ message: 'Access denied. Admins only.' });
@@ -53,4 +53,38 @@ export const getAdminReports = async (req, res) => {
     } 
 
 
+};
+
+export const getFlaggedContent = async (req, res) => {
+    if(req.user.role != 'Admin') return res.status(403).json({ message: 'Access denied. Admins only.' });
+    try {
+        const flaggedContent = await FlaggedContent.getAllFlaggedContent();
+        res.json(flaggedContent);
+    } catch (error) {
+        console.error('Error retrieving flagged content:', error);
+        res.status(500).json({ message: 'Error retrieving flagged content' });
+    }
+};
+
+export const updateFlaggedContentStatus = async (req, res) => {
+    if(req.user.role != 'Admin') return res.status(403).json({ message: 'Access denied. Admins only.' });
+
+    const { flag_id } = req.params;
+    const { status } = req.body;
+
+    const validStatuses = ['pending', 'reviewed', 'resolved'];
+    if (!validStatuses.includes(status)) {
+        return res.status(400).json({ message: 'Invalid status. Valid statuses are pending, reviewed, resolved.' });
+    }
+
+    try {
+        const result = await FlaggedContent.updateStatus(flag_id, status);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Flagged content not found' });
+        }
+        res.json({ message: `Flagged content status updated to ${status}` });
+    } catch (error) {
+        console.error('Error updating flagged content status:', error);
+        res.status(500).json({ message: 'Error updating flagged content status' });
+    }
 };
