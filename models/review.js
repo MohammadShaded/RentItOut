@@ -42,3 +42,21 @@ export async function getReviewsByItemId(item_id) {
         throw error;
     }
     }
+      // get reviews by user_id
+export async function getUserReviews(user_id) {
+    try {
+        
+      const [rows] = await db.query(`
+          select * from Review
+            where reviewer_id = ?
+        `, [user_id]);
+
+     console.log(rows);
+     if (rows.length === 0) {
+         throw new Error("review not found for this user");
+     }
+     return rows;
+ } catch (error) {
+     throw error;
+ }
+        }
