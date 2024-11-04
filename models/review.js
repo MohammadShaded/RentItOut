@@ -88,3 +88,21 @@ export async function updateReview (id, updateReview) {
 
 
 }
+
+// Delete  review
+export async function deleteReview  (id) {
+    try{
+    const [rows] = await db.query( "delete from Review where review_id = ?" , 
+     [
+        id,
+
+     ]
+    );
+    if (rows.affectedRows == 0) {
+        throw new Error("review not found");
+      }
+    } catch (err) {
+      throw err;
+    }
+
+}
