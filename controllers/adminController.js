@@ -2,6 +2,9 @@ import User from '../models/User.js';
 import {getTotalRevenue,getRevenuePerMonth} from '../models/payment.js';
 import Rental from "../models/rentalModel.js";
 import FlaggedContent from '../models/FlaggedContent.js';
+import os from 'os';
+
+
 export const getUsersByRole = async (req, res)=>{
     const role = req.params.role;
     if(req.user.role != 'Admin') return res.status(403).json({ message: 'Access denied. Admins only.' });
@@ -103,4 +106,29 @@ export const getAnalytics = async (req, res) => {
         console.error('Error fetching analytics:', error);
         res.status(500).json({ message: 'Failed to fetch analytics data' });
     }
+};
+
+export const getUsageStats = (req, res) => {
+    const memoryUsage = process.memoryUsage();
+    const cpuLoad = os.loadavg(); 
+    const uptime = os.uptime(); 
+    const processUptime = process.uptime(); 
+
+
+    res.json({
+        memoryUsage: {
+            rss: memoryUsage.rss,
+            heapTotal: memoryUsage.heapTotal,
+            heapUsed: memoryUsage.heapUsed,
+            external: memoryUsage.external,
+        },
+        cpuLoad: {
+            '1min': cpuLoad[0],
+            '5min': cpuLoad[1],
+            '15min': cpuLoad[2],
+        },
+        uptime: uptime,
+        processUptime, 
+
+    });
 };

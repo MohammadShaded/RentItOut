@@ -4,7 +4,8 @@ import {
         getAdminReports,
         getFlaggedContent,
         updateFlaggedContentStatus,
-        getAnalytics
+        getAnalytics,
+        getUsageStats
 } from '../controllers/adminController.js'
 import authenticateToken from '../middleware/authenticateToken.js';
 
@@ -15,6 +16,7 @@ router.get('/reports',authenticateToken , getAdminReports);
 router.get('/items/flagged', authenticateToken, getFlaggedContent);
 router.patch('/items/flagged/:flag_id', authenticateToken, updateFlaggedContentStatus);
 router.get('/analytics', authenticateToken, getAnalytics);
+router.get('/system/usage-stats', getUsageStats);
 
 
 export default router;
