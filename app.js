@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import "./config/db.js"; // Ensure db.js is loaded after dotenv.config()
+import passport from './config/passportConfig.js';
 
 import itemRouters from "./routes/itemRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -11,9 +12,10 @@ import insuranceRoutes from "./routes/insuranceRoutes.js";
 import paymentRoutes from './routes/paymentRoutes.js';
 import adminRoutes from "./routes/adminRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
-
+import authRoutes from './routes/authRoutes.js'
 const app = express();
 app.use(express.json());
+app.use(passport.initialize());
 
 //note for the team: under here you have to add your routes usings
 app.use("/users", userRoutes);
@@ -24,6 +26,7 @@ app.use('/payments', paymentRoutes);
 app.use('/insurance', insuranceRoutes);
 app.use('/admin', adminRoutes);
 app.use('/reviews', reviewRoutes);
+app.use('/auth', authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

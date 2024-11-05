@@ -4,10 +4,16 @@ import { v4 as uuidv4 } from 'uuid';
 const User = {
     createUser: async (data) => {
         const userId = uuidv4();
-        const { name, email, password, role, phone_number, location_id } = data;
-        const query = `INSERT INTO User (user_id, name, email, password, role, phone_number, location_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-        const [result] = await pool.query(query, [userId, name, email, password, role, phone_number, location_id]);
-        return userId; 
+        const { name, email, password = "null", role = 'Renter', phone_number = null, location_id = null, googleId = null } = data;
+        const query = `INSERT INTO User (user_id, name, email, password, role, phone_number, location_id, googleId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+        await pool.query(query, [userId, name, email, password, role, phone_number, location_id, googleId]);
+        return userId;
+    },
+    
+    findUserByGoogleId: async (googleId) => {
+        const query = 'SELECT * FROM User WHERE googleId = ?';
+        const [rows] = await pool.query(query, [googleId]);
+        return rows[0];
     },
 
     findUserByEmail: async (email) => {
@@ -88,6 +94,7 @@ const User = {
         const [rows] = await pool.query('SELECT COUNT(*) AS totalUsers FROM User');
         return rows[0].totalUsers;
     },
+    
 };
 
 
