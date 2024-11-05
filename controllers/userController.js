@@ -202,7 +202,7 @@ export const updateProfile = async (req, res) => {
     export const getUserActivity =async (req, res) =>{
         const reqId = req.params.id;
         const userId = req.user.user_id;
-        
+        console.log(reqId+"  "+ userId)
         if(reqId!= userId){
              return res.status(403).json({ message: 'Unauthorized access' });
          }
