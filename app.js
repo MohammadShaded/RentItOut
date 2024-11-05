@@ -9,12 +9,9 @@ import categoryRouters from "./routes/categoryRoutes.js";
 import rentalRoutes from "./routes/rentalRoutes.js";
 import insuranceRoutes from "./routes/insuranceRoutes.js";
 import paymentRoutes from './routes/paymentRoutes.js';
-<<<<<<< HEAD
 import adminRoutes from "./routes/adminRoutes.js";
-=======
 import reviewRoutes from "./routes/reviewRoutes.js";
 
->>>>>>> main
 const app = express();
 app.use(express.json());
 
