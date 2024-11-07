@@ -44,6 +44,11 @@ import paymentRoutes from './routes/paymentRoutes.js';
 import adminRoutes from "./routes/adminRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import authRoutes from './routes/authRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import itemRouters from './routes/itemRoutes.js'
+import rentalRoutes from './routes/rentalRoutes.js'
+import categoryRouters from './routes/categoryRoutes.js'
+
 //note for the team: under here you have to add your routes usings
 const app = express();
 app.use(express.json());
