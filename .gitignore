@@ -1,8 +1,5 @@
-
 # Node modules
 node_modules/
-
-
 
 # Logs
 logs/
@@ -30,3 +27,6 @@ build/
 # AWS and other cloud configurations (if any)
 .aws/
 
+# Dependency files
+package.json
+package-lock.json

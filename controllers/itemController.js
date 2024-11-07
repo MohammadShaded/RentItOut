@@ -8,7 +8,6 @@ import {
 } from "../models/item.js";
 import database from "../config/db.js";
 import axios from "axios";
-
 export const createItemController = async (request, response) => {
   try {
     const role = request.user.role;

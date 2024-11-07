@@ -34,7 +34,7 @@
 
         "dotenv": "^16.4.5",
 
-        "express": "^4.21.0",
+        "express": "^4.21.1",
 
         "jsonwebtoken": "^9.0.2",
 
@@ -42,9 +42,17 @@
 
         "nodemailer": "^6.9.16",
 
+
         "swagger-jsdoc": "^6.2.8",
 
         "swagger-ui-express": "^5.0.1",
+
+        "os": "^0.1.2",
+
+        "passport": "^0.7.0",
+
+        "passport-google-oauth20": "^2.0.0",
+
 
         "uuid": "^10.0.0"
 
