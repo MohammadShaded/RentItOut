@@ -250,55 +250,6 @@ cancelRental : async (req, res) => {
     }
   },
 
-  deleteRental: async (req, res) => {
-    const rentalId = req.params.rental_id;
 
-    const userId = req.user.user_id;
-    
-
-
-    try {
-      const [rentalRows] = await Rental.getRentalById(rentalId);
-      if (rentalRows.length === 0) {
-        return res.status(404).json({ message: "Rental not found" });
-      }
-
-      const itemId = rentalRows[0].item_id;
-
-      const [itemRows] = await Rental.getItemById(itemId);
-      if (itemRows.length === 0) {
-        return res.status(404).json({ message: "Item not found" });
-      }
-
-      const ownerId = itemRows[0].owner_id;
-
-      const [userRows] = await Rental.getUserById(userId);
-      if (userRows.length === 0) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      const userRole = userRows[0].role;
-
-      if (
-        userRole === "Admin" ||
-        rentalRows[0].renter_id === parseInt(userId) ||
-        ownerId === parseInt(userId)
-      ) {
-        await Rental.deleteRental(rentalId);
-        return res.json({
-          renal: rentalRows[0],
-          message: "Rental deleted successfully",
-        });
-      } else {
-        return res
-          .status(401)
-          .json({
-            message: "You do not have permission to delete this rental.",
-          });
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
 };
 export default rentalController;
