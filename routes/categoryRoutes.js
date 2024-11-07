@@ -19,7 +19,7 @@ import authenticateToken from "../middleware/authenticateToken.js";
  *       properties:
  *         id:
  *           type: string
- *           example: "123"
+ *           example: "0d499409-2cba-40cf-8aaa-34bad5770b8c"
  *         name:
  *           type: string
  *           example: "Electronics"
@@ -42,7 +42,7 @@ router.get("/:id",authenticateToken, getCategoryController);
  *     summary: Get all categories
  *     description: Retrieve a list of all categories.
  *     tags:
- *       [Categories]
+ *       - Categories  # Corrected YAML formatting for the tags
  *     responses:
  *       200:
  *         description: A list of categories
@@ -62,8 +62,16 @@ router.get("/:id",authenticateToken, getCategoryController);
  *                 message:
  *                   type: string
  *                   example: "Internal server error"
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
-router.get("/",getCategoriesController);
+
+
+router.get("/",authenticateToken,getCategoriesController);
 router.put("/:id",authenticateToken, updateCategoryController);
 router.delete("/:id",authenticateToken, deleteCategoryController);
 
