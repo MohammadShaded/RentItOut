@@ -5,7 +5,7 @@ import "./config/db.js"; // Ensure db.js is loaded after dotenv.config()
 
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
-import passport from './config/passportConfig.js';
+
 const options = {
     definition: {
       openapi: "3.0.0",
