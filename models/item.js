@@ -1,4 +1,3 @@
-import db from "../config/db.js";
 import database from "../config/db.js";
 import { v4 as uuid } from "uuid";
 
@@ -41,14 +40,13 @@ export async function getItem(id) {
   }
 }
 
-export async function updateItem(id, updatedItem) {
+export async function updateItem(id, updatedItem,owner_id) {
   try {
     const [rows] = await database.query(
-      `UPDATE Item SET owner_id = ?, title = ?, description = ?, category_id = ?, price_per_day = ?
+      `UPDATE Item SET  title = ?, description = ?, category_id = ?, price_per_day = ?
       , deposit = ?, location_id = ?, status = ?, damage_protection_required = ?, rating = ? 
-      WHERE item_id = ?`,
+      WHERE item_id = ? and owner_id = ?`
       [
-        updatedItem.owner_id,
         updatedItem.title,
         updatedItem.description,
         updatedItem.category_id,
@@ -59,6 +57,7 @@ export async function updateItem(id, updatedItem) {
         updatedItem.damage_protection_required,
         updatedItem.rating,
         id,
+       owner_id
       ]
     );
     if (rows.affectedRows == 0) {
@@ -70,11 +69,11 @@ export async function updateItem(id, updatedItem) {
   }
 }
 
-export async function deleteItem(id) {
+export async function deleteItem(id,owner_id) {
   try {
     const [rows] = await database.query(
-      "UPDATE Item SET status = 'rented' WHERE item_id = ?",
-      [id]
+      "UPDATE Item SET status = 'rented' WHERE item_id = ? and owner_id=?",
+      [id,owner_id]
     );
     if (rows.affectedRows == 0) {
       throw new Error("Item not found");
@@ -118,7 +117,7 @@ export async function getItems({ category_id, price_min, price_max, status }) {
 
 export async function getTrendingItems() {
   try {
-    const [rows] = await db.query(
+    const [rows] = await database.query(
       `SELECT * FROM Item 
      WHERE status = 'available' 
      ORDER BY rating DESC 
