@@ -36,9 +36,7 @@ const Rental = {
         return db.execute('UPDATE Rental SET status = ? WHERE rental_id = ?', [status, rental_id]);
     },
 
-    deleteRental: (rental_id) => {
-        return db.execute('DELETE FROM Rental WHERE rental_id = ?', [rental_id]);
-    },
+
     getTotalRentals: async () => {
         const [rows] = await db.query('SELECT COUNT(*) AS total FROM Rental');
         return rows[0].total;
