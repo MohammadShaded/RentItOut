@@ -11,7 +11,6 @@ router.get('/',authenticateToken, rentalController.getAllRentals);
 router.put('/:rental_id',authenticateToken, rentalController.updateRental);
 router.put('/:rental_id/status',authenticateToken, rentalController.updateRentalStatus);
 router.put('/:rental_id/cancel',authenticateToken, rentalController.cancelRental);
-router.delete('/:rental_id',authenticateToken, rentalController.deleteRental);
 
 export default router;
 
