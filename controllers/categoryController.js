@@ -16,7 +16,7 @@ export const createCategoryController = async (request, response) => {
       const res = await createCategory(category);
       if (res === "already exist")
         response.status(409).json({ message: "Category already exists" });
-      else response.status(201).json(res);
+      else response.status(201).json({ message: "Added successfully" });
     } else response.status(403).json({ message: "Forbidden Access" });
   } catch (error) {
     response.status(500).json({ message: error.message });
