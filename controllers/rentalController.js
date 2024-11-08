@@ -49,7 +49,7 @@ getAllRentals : async (req, res) => {
       const userRole = userRows[0].role;
       if (userRole == "Admin") {
         const [rentals] = await Rental.getAllRentals();
-        res.json(rentals);
+        res.status(200).json(rentals);
       } else {
         return res
           .status(401)
@@ -94,7 +94,7 @@ getAllRentals : async (req, res) => {
         rentalRows[0].renter_id === parseInt(userId) ||
         ownerId === parseInt(userId)
       ) {
-        res.json({ userRole: userRole, Rental: rentalRows[0] });
+        res.status(200).json({ userRole: userRole, Rental: rentalRows[0] });
       } else {
         return res
           .status(403)
@@ -141,7 +141,7 @@ updateRental : async (req, res) => {
       }
 
       await Rental.updateRental(rentalId, req.body);
-      res.json({ Rental: req.body, message: "Rental updated successfully" });
+      res.status(200).json({ Rental: req.body, message: "Rental updated successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -186,7 +186,7 @@ updateRentalStatus : async (req, res) => {
       const status = req.body.status;
       if (["active", "completed", "canceled"].includes(status)) {
         await Rental.updateRentalStatus(req.params.rental_id, status);
-        return res.json({
+        return res.status(200).json({
           status: status,
           message: "Rental status updated successfully",
         });
@@ -244,7 +244,7 @@ cancelRental : async (req, res) => {
       }
 
       await Rental.updateRentalStatus(rentalId, "canceled");
-      res.json({ message: "Rental canceled successfully" });
+      res.status(200).json({ message: "Rental canceled successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

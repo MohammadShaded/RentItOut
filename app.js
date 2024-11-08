@@ -48,6 +48,7 @@ import userRoutes from './routes/userRoutes.js'
 import itemRouters from './routes/itemRoutes.js'
 import rentalRoutes from './routes/rentalRoutes.js'
 import categoryRouters from './routes/categoryRoutes.js'
+import locationRouters from './routes/locationRoutes.js'
 
 //note for the team: under here you have to add your routes usings
 const app = express();
@@ -61,8 +62,12 @@ app.use('/insurance', insuranceRoutes);
 app.use('/admin', adminRoutes);
 app.use('/reviews', reviewRoutes);
 app.use('/auth', authRoutes);
+app.use("/location",locationRouters);
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerSpec));
-
+app.get('/api-docs.json', (req, res) => {
+    res.json(swaggerSpec);
+  });
+  
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
