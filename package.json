@@ -42,16 +42,12 @@
 
         "nodemailer": "^6.9.16",
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 7281d9df9e41401a5d62231553bc576ff24507c2
         "swagger-jsdoc": "^6.2.8",
 
         "swagger-ui-express": "^5.0.1",
 
-<<<<<<< HEAD
-=======
+
         "os": "^0.1.2",
 
         "passport": "^0.7.0",
@@ -59,7 +55,7 @@
         "passport-google-oauth20": "^2.0.0",
 
 
->>>>>>> 7281d9df9e41401a5d62231553bc576ff24507c2
+
         "uuid": "^10.0.0"
 
     },
