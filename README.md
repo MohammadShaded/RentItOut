@@ -1,17 +1,10 @@
 # RentItOut 
 ![download](https://github.com/user-attachments/assets/8dcec20e-65ae-4e43-adb2-763012a28109)
 
-## Table of Contents
 
 - [Project Overview](#Project-Overview)
 - [Core Features](#Core-Features)
 - [Technology Stack](#Technology-Stack)
-- [Project Architecture](#Project-Architecture)
-- [Third-Party Integrations](#Third-Party-Integrations)
-- [Development Workflow](#Development-Workflow)
-- [Database Schema](#Database-Schema)
-- [API Documentation](./API-Documentation)
-- [Installation](./Installation)
 
 
 
