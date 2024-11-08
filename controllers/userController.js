@@ -52,7 +52,6 @@ export const loginUser = async (req, res) => {
 export const logoutUser = async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-
     if (!token) {
         return res.status(400).json({ message: 'No token provided' });
     }
@@ -64,7 +63,6 @@ export const logoutUser = async (req, res) => {
 export const addItemToFavourite =async (req, res)=>{
     const { uid,iid } = req.params; 
     const userId = req.user.user_id;
-
     if(uid != userId){
         return res.status(403).json({ message: 'Unauthorized access' });
     }
@@ -202,21 +200,17 @@ export const updateProfile = async (req, res) => {
     export const getUserActivity =async (req, res) =>{
         const reqId = req.params.id;
         const userId = req.user.user_id;
-        console.log(reqId+"  "+ userId)
         if(reqId!= userId){
              return res.status(403).json({ message: 'Unauthorized access' });
          }
 
         try {
             let activity=null;
-            console.log(req.user.role);
              if(req.user.role=='Owner') {
-                console.log('Activity ');
                  activity = await User.getUserItems(reqId);
 
             }
             else if(req.user.role=='Renter'){
-                console.log('renting ');
                      activity = await User.getUserActivity(reqId);    
             }
 
