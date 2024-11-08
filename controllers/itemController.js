@@ -8,6 +8,7 @@ import {
 } from "../models/item.js";
 import database from "../config/db.js";
 import axios from "axios";
+import { getLocationDetails } from "../models/location.js";
 
 export const createItemController = async (request, response) => {
   try {
@@ -35,12 +36,13 @@ export const getItemController = async (request, response) => {
 export const updateItemController = async (request, response) => {
   try {
     const role = request.user.role;
-    if(role=="Owner"){
-    const itemId = request.params.id;
-    const updatedItem = request.body;
-    await updateItem(itemId, updatedItem,request.user.id);
-    response.status(200).json(updatedItem);
-    }else response.status(403).json({ message: "Forbidden Access" });
+    if (role == "Owner") {
+      console.log(request.body);
+      const itemId = request.params.id;
+      const updatedItem = request.body;
+      await updateItem(itemId, updatedItem, request.body.owner_id);
+      response.status(200).json(updatedItem);
+    } else response.status(403).json({ message: "Forbidden Access" });
   } catch (error) {
     response.status(400).json({ message: error.message });
   }
@@ -49,11 +51,11 @@ export const updateItemController = async (request, response) => {
 export const deleteItemController = async (request, response) => {
   try {
     const role = request.user.role;
-    if(role=="Owner"){
-    const itemId = request.params.id;
-    await deleteItem(itemId,request.user.id);
-    response.status(200).json({ message: "Item deleted successfully" });
-    }else response.status(403).json({ message: "Forbidden Access" });
+    if (role == "Owner") {
+      const itemId = request.params.id;
+      await deleteItem(itemId, request.user.user_id);
+      response.status(200).json({ message: "Item deleted successfully" });
+    } else response.status(403).json({ message: "Forbidden Access" });
   } catch (error) {
     response.status(400).json({ message: error.message });
   }
@@ -71,10 +73,7 @@ export const filterItemsController = async (request, response) => {
       availability,
     });
 
-    const [rows] = await database.query(
-      "SELECT latitude, longitude FROM Location WHERE location_id = ?",
-      [location_id]
-    );
+    const [rows] = await getLocationDetails(location_id);
 
     if (rows.length === 0) {
       console.log("Location not found for ID:", location_id);
@@ -99,10 +98,7 @@ export const filterItemsController = async (request, response) => {
     const distances = [];
     let i = 0;
     for (const item of items) {
-      const [itemLocation] = await database.query(
-        "SELECT latitude, longitude FROM Location WHERE location_id = ?",
-        [item.location_id]
-      );
+      const [itemLocation] = await getLocationDetails(item.location_id);
 
       const locationFormat = [
         [location.longitude, location.latitude],
