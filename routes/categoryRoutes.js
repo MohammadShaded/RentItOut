@@ -56,7 +56,7 @@ import authenticateToken from "../middleware/authenticateToken.js";
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Category'
+ *           
  *       400:
  *         description: Bad request, possibly missing or invalid data
  *         content:
