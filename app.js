@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import "./config/db.js"; // Ensure db.js is loaded after dotenv.config()
-
+import './config/passportConfig.js';
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 

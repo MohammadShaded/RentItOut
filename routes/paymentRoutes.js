@@ -50,12 +50,7 @@ const router = express.Router();
  *       bearerFormat: JWT
  */
 
-/**
- * @swagger
- * tags:
- *   - name: Payments
- *     description: API endpoints for managing payments
- */
+
 
 /**
  * @swagger

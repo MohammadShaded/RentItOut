@@ -37,12 +37,6 @@ const router = express.Router();
  *           example: "2024-12-31"
  */
 
-/**
- * @swagger
- * tags:
- *   name: Reviews
- *   description: API endpoints for managing reviews
- */
 
 /**
  * @swagger
