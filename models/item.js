@@ -45,7 +45,7 @@ export async function updateItem(id, updatedItem,owner_id) {
     const [rows] = await database.query(
       `UPDATE Item SET  title = ?, description = ?, category_id = ?, price_per_day = ?
       , deposit = ?, location_id = ?, status = ?, damage_protection_required = ?, rating = ? 
-      WHERE item_id = ? and owner_id = ?`
+      WHERE item_id = ? and owner_id = ?`,
       [
         updatedItem.title,
         updatedItem.description,
@@ -65,14 +65,17 @@ export async function updateItem(id, updatedItem,owner_id) {
     }
     return rows;
   } catch (err) {
+    console.error(err);
     throw err;
   }
 }
 
 export async function deleteItem(id,owner_id) {
   try {
+    console.log(id);
+    console.log(owner_id);
     const [rows] = await database.query(
-      "UPDATE Item SET status = 'rented' WHERE item_id = ? and owner_id=?",
+      "UPDATE Item SET status= 'rented' WHERE item_id = ? and owner_id=?",
       [id,owner_id]
     );
     if (rows.affectedRows == 0) {

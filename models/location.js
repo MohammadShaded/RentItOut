@@ -54,7 +54,7 @@ export async function deleteLocation(locationId) {
 }
 
 export async function getLocationDetails(id) {
-  const [details]=await database.query(
+  const details=await database.query(
     "SELECT latitude, longitude FROM Location WHERE location_id = ?",
     [id]
   );

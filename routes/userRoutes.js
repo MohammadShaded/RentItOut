@@ -44,7 +44,7 @@ const router = express.Router();
  *           example: "3sfr3sfr@gmail.com"
  *         password:
  *           type: "string"
- *           example: "123456789"
+ *           example: "100200300"
  *     TokenResponse:
  *       type: object
  *       properties:
