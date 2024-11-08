@@ -91,8 +91,8 @@ getAllRentals : async (req, res) => {
 
       if (
         userRole === "Admin" ||
-        rentalRows[0].renter_id === parseInt(userId) ||
-        ownerId === parseInt(userId)
+        rentalRows[0].renter_id ===userId ||
+        ownerId === userId
       ) {
         res.status(200).json({ userRole: userRole, Rental: rentalRows[0] });
       } else {
@@ -132,7 +132,7 @@ updateRental : async (req, res) => {
       }
       const ownerId = itemRows[0].owner_id;
 
-      if (parseInt(userId) !== ownerId) {
+      if (userId !== ownerId) {
         return res
           .status(401)
           .json({
@@ -174,7 +174,7 @@ updateRentalStatus : async (req, res) => {
 
       const ownerId = itemRows[0].owner_id;
 
-      if (parseInt(userId) !== ownerId) {
+      if (userId !== ownerId) {
         return res
           .status(401)
           .json({
@@ -226,7 +226,7 @@ cancelRental : async (req, res) => {
 
       const ownerId = itemRows[0].owner_id;
 
-      if (parseInt(userId) !== ownerId) {
+      if (userId !== ownerId) {
         return res
           .status(401)
           .json({
